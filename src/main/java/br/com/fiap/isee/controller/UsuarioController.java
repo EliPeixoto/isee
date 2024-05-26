@@ -1,17 +1,14 @@
 package br.com.fiap.isee.controller;
 
-import br.com.fiap.isee.entities.Post;
 import br.com.fiap.isee.entities.Usuario;
 import br.com.fiap.isee.service.UsuarioService;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -30,7 +27,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Usuario>> findById(@PathVariable UUID id) {
+    public ResponseEntity<Usuario> findById(@PathVariable UUID id) {
         var usuario = service.findById(id);
         return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(usuario);
     }

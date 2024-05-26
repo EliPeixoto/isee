@@ -1,13 +1,14 @@
 package br.com.fiap.isee.service;
 
+import br.com.fiap.isee.controller.ControllerNotFoundException;
 import br.com.fiap.isee.entities.Usuario;
 import br.com.fiap.isee.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,8 +21,8 @@ public class UsuarioService {
         return usuarios;
     }
 
-    public Optional<Usuario>findById(UUID id){
-        var usuario = repository.findById(id);
+    public Usuario findById(UUID id){
+        var usuario = repository.findById(id).orElseThrow(()-> new ControllerNotFoundException("Usuario não encontrado!"));
         return usuario;
     }
 
@@ -30,12 +31,19 @@ public class UsuarioService {
     }
 
     public Usuario update(UUID id, Usuario usuario){
-        Usuario buscaUsuario = repository.getOne(id);
-        buscaUsuario.setNome(usuario.getNome());
-        buscaUsuario.setEmail(usuario.getEmail());
-        buscaUsuario.setSenha(usuario.getSenha());
-        buscaUsuario = repository.save(usuario);
-        return buscaUsuario;
+       try {
+
+           Usuario buscaUsuario = repository.getOne(id);
+           buscaUsuario.setNome(usuario.getNome());
+           buscaUsuario.setEmail(usuario.getEmail());
+           buscaUsuario.setSenha(usuario.getSenha());
+           buscaUsuario = repository.save(usuario);
+           return buscaUsuario;
+       }catch (EntityNotFoundException e){
+           throw new ControllerNotFoundException("Usuario não encontrado!");
+       }
+
+
     }
 
     public void delete(UUID id){
