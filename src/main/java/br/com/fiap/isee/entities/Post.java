@@ -6,11 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name="post")
+@Table(name = "post")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,13 +19,20 @@ import java.util.UUID;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "ID_POST")
     private UUID id;
 
-    private String nome;
-    private String descricao;
-    private double curtidas;
-    private String urlImage;
+    @Column(name = "TITULO_POST")
+    private String titulo;
 
+    @Column(name = "CONTEUDO")
+    private String conteudo;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Tags> tags;
+
+    @Column(name = "URL_IMAGE")
+    private String urlImage;
 
     @Override
     public boolean equals(Object o) {
@@ -36,16 +44,16 @@ public class Post {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "Post{" +
                 "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", curtidas=" + curtidas +
+                ", titulo='" + titulo + '\'' +
+                ", conteudo='" + conteudo + '\'' +
+                ", tags=" + tags +
                 ", urlImage='" + urlImage + '\'' +
                 '}';
     }
