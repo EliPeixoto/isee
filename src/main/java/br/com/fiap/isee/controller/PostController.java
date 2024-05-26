@@ -2,7 +2,6 @@ package br.com.fiap.isee.controller;
 
 import br.com.fiap.isee.entities.Post;
 import br.com.fiap.isee.service.PostService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/posts ")
+@RequestMapping("posts")
 public class PostController {
 
     @Autowired
