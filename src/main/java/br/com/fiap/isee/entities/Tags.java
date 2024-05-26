@@ -1,5 +1,6 @@
 package br.com.fiap.isee.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,5 +29,6 @@ public class Tags {
 
     @ManyToOne
     @JoinColumn(name = "POST_ID")
+    @JsonBackReference
     private Post post;
 }

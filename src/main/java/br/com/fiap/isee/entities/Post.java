@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,23 +30,8 @@ public class Post {
     private String conteudo;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tags> tags;
+    private List<Tags> tags = new ArrayList<>();
 
-    @Column(name = "URL_IMAGE")
-    private String urlImage;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Post post = (Post) o;
-        return Objects.equals(id, post.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 
     @Override
     public String toString() {
@@ -54,7 +40,6 @@ public class Post {
                 ", titulo='" + titulo + '\'' +
                 ", conteudo='" + conteudo + '\'' +
                 ", tags=" + tags +
-                ", urlImage='" + urlImage + '\'' +
                 '}';
     }
 }

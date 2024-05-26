@@ -25,17 +25,18 @@ public class PostService {
         return posts;
     }
 
-    public Post save(Post post){
-    post = repository.save(post);
-    return post;
+    public Post save(Post post) {
+        if (post.getTags() != null) {
+            post.getTags().forEach(tag -> tag.setPost(post));
+        }
+        return repository.save(post);
     }
 
     public Post update(UUID id, Post post){
         Post buscaPost = repository.getOne(id);
-        buscaPost.setNome(post.getNome());
-        buscaPost.setDescricao(post.getDescricao());
-        buscaPost.setUrlImage(post.getUrlImage());
-        buscaPost.setCurtidas(post.getCurtidas());
+        buscaPost.setTitulo(post.getTitulo());
+        buscaPost.setConteudo(post.getConteudo());
+        buscaPost.setTags(post.getTags());
         buscaPost = repository.save(buscaPost);
         return buscaPost;
     }
