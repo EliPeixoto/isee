@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tags")
+@Table(name = "tb_tags")
 @Getter
 @Setter
 @NoArgsConstructor
