@@ -1,4 +1,4 @@
-package br.com.fiap.isee.controller;
+package br.com.fiap.isee.controller.exception;
 
 import br.com.fiap.isee.entities.StandardError;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +22,21 @@ public class ControllerExceptionHandler {
         erro.setTimestamp(Instant.now());
         erro.setStatus(status.value());
         erro.setError("Entity not Found");
+        erro.setMessage(e.getMessage());
+        erro.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(status).body(this.erro);
+    }
+
+    @ExceptionHandler(ControllerBadRequestException.class)
+    public ResponseEntity<StandardError>badRequest(
+            ControllerBadRequestException e,
+            HttpServletRequest request){
+
+        HttpStatus status =  HttpStatus.BAD_REQUEST;
+        erro.setTimestamp(Instant.now());
+        erro.setStatus(status.value());
+        erro.setError("Bad Request");
         erro.setMessage(e.getMessage());
         erro.setPath(request.getRequestURI());
 

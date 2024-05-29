@@ -1,13 +1,15 @@
 package br.com.fiap.isee.service;
 
+import br.com.fiap.isee.controller.exception.ControllerBadRequestException;
+import br.com.fiap.isee.dto.PostDTO;
 import br.com.fiap.isee.entities.Post;
 import br.com.fiap.isee.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Collection;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -15,33 +17,59 @@ public class PostService {
     @Autowired
     private PostRepository repository;
 
-    public Collection<Post> findAll(){
+    public Collection<PostDTO> findAll() {
         var posts = repository.findAll();
-        return posts;
+        return posts
+                .stream()
+                .map(this::toPostDTO)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Post> findById(UUID id){
-        var posts = repository.findById(id);
-        return posts;
+    public PostDTO findById(String id) {
+        var posts = repository.findById(id).orElseThrow(() -> new ControllerBadRequestException("Post não encontrado!"));
+        return toPostDTO(posts);
     }
 
-    public Post save(Post post) {
-        if (post.getTags() != null) {
-            post.getTags().forEach(tag -> tag.setPost(post));
+    public PostDTO save(PostDTO postDTO) {
+        Post post = toPost(postDTO);
+        post = repository.save(post);
+
+        return toPostDTO(post);
+    }
+
+    public PostDTO update(String id, PostDTO postDTO) {
+        try {
+            Post buscaPost = repository.getReferenceById(id);
+            buscaPost.setTitulo(postDTO.titulo());
+            buscaPost.setConteudo(postDTO.conteudo());
+            buscaPost.setTags(postDTO.tags());
+            buscaPost = repository.save(buscaPost);
+            return toPostDTO(buscaPost);
+        } catch (HttpClientErrorException.BadRequest e) {
+            throw new ControllerBadRequestException("Post não encontrado!");
         }
-        return repository.save(post);
     }
 
-    public Post update(UUID id, Post post){
-        Post buscaPost = repository.getOne(id);
-        buscaPost.setTitulo(post.getTitulo());
-        buscaPost.setConteudo(post.getConteudo());
-        buscaPost.setTags(post.getTags());
-        buscaPost = repository.save(buscaPost);
-        return buscaPost;
-    }
-
-    public void delete(UUID id){
+    public void delete(String id) {
         repository.deleteById(id);
+    }
+
+    private PostDTO toPostDTO(Post post) {
+        return new PostDTO(
+                post.getId(),
+                post.getTitulo(),
+                post.getConteudo(),
+                post.getTags()
+
+        );
+    }
+
+    private Post toPost(PostDTO postDTO) {
+        return new Post(
+                postDTO.id(),
+                postDTO.titulo(),
+                postDTO.conteudo(),
+                postDTO.tags()
+        );
     }
 }

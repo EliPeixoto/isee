@@ -20,7 +20,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "ID_POST")
-    private UUID id;
+    private String id;
 
     @Column(name = "TITULO_POST")
     private String titulo;

@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "tb_tags")
 @Getter
@@ -17,18 +15,17 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Tags {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @Column(name = "NOME", nullable = true)
-    private String nome;
-
-    @Column(name = "CATEGORIA", nullable = true)
-    private String categoria;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "POST_ID")
     @JsonBackReference
     private Post post;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private Users users;
 }
