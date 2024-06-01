@@ -17,15 +17,15 @@ public class Tags {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "POST_ID")
+    @JoinColumn(name = "post_id", nullable = false)
     @JsonBackReference
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private Users users;
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 }

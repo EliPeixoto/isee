@@ -16,20 +16,18 @@ public class UsersService {
     private UsersRepository repository;
 
     public Collection<Users> findAll(){
-        var usuarios = repository.findAll();
-        return usuarios;
+        return repository.findAll();
     }
 
-    public Users findById(String id){
-        var usuario = repository.findById(id).orElseThrow(()-> new ControllerNotFoundException("Usuario não encontrado!"));
-        return usuario;
+    public Users findById(Long id){
+        return repository.findById(id).orElseThrow(()-> new ControllerNotFoundException("Usuario não encontrado!"));
     }
 
     public Users save(@RequestBody Users users){
        return repository.save(users);
     }
 
-    public Users update(String id, Users users){
+    public Users update(Long id, Users users){
        try {
            Users buscaUsers = repository.getOne(id);
            buscaUsers.setNome(users.getNome());
@@ -40,11 +38,9 @@ public class UsersService {
        }catch (EntityNotFoundException e){
            throw new ControllerNotFoundException("Usuario não encontrado!");
        }
-
-
     }
 
-    public void delete(String id){
+    public void delete(Long id){
         repository.deleteById(id);
     }
 }

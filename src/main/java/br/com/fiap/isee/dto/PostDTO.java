@@ -1,15 +1,17 @@
 package br.com.fiap.isee.dto;
 
 import br.com.fiap.isee.entities.Tags;
+import br.com.fiap.isee.entities.Users;
 
 import java.util.List;
 
 public record PostDTO(
 
-        String id,
+        Long id,
         String titulo,
         String conteudo,
-        List<Tags> tags
+        Users user,
+        List<String> tags
 
 ) {
 }

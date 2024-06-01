@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tb_post")
@@ -18,18 +17,19 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "ID_POST")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
+    private Long id;
 
-    @Column(name = "TITULO_POST")
     private String titulo;
 
-    @Column(name = "CONTEUDO")
     private String conteudo;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Tags> tags = new ArrayList<>();
+    @ManyToOne
+    private Users user;
+
+    @ElementCollection
+    private List<String> tags;
 
 
     @Override

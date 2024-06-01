@@ -1,17 +1,17 @@
 package br.com.fiap.isee.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="tb_usuario")
+@Table(name="tb_users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,14 +19,16 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NotEmpty
     private String nome;
-    @NotEmpty
     private String email;
-    @NotNull
     private String senha;
 
+    @CreationTimestamp
+    private LocalDateTime criacao;
+
+    @UpdateTimestamp
+    private LocalDateTime atualizacao;
 }

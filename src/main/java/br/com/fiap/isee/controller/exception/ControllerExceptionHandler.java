@@ -1,6 +1,6 @@
 package br.com.fiap.isee.controller.exception;
 
-import br.com.fiap.isee.entities.StandardError;
+import br.com.fiap.isee.entities.exceptions.StandardError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

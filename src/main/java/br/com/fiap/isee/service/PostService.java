@@ -25,7 +25,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public PostDTO findById(String id) {
+    public PostDTO findById(Long id) {
         var posts = repository.findById(id).orElseThrow(() -> new ControllerBadRequestException("Post não encontrado!"));
         return toPostDTO(posts);
     }
@@ -37,7 +37,7 @@ public class PostService {
         return toPostDTO(post);
     }
 
-    public PostDTO update(String id, PostDTO postDTO) {
+    public PostDTO update(Long id, PostDTO postDTO) {
         try {
             Post buscaPost = repository.getReferenceById(id);
             buscaPost.setTitulo(postDTO.titulo());
@@ -50,7 +50,7 @@ public class PostService {
         }
     }
 
-    public void delete(String id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 
@@ -59,6 +59,7 @@ public class PostService {
                 post.getId(),
                 post.getTitulo(),
                 post.getConteudo(),
+                post.getUser(),
                 post.getTags()
 
         );
@@ -69,6 +70,7 @@ public class PostService {
                 postDTO.id(),
                 postDTO.titulo(),
                 postDTO.conteudo(),
+                postDTO.user(),
                 postDTO.tags()
         );
     }
