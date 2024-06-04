@@ -1,6 +1,5 @@
 package br.com.fiap.isee.dto;
 
-import br.com.fiap.isee.entities.Tags;
 import br.com.fiap.isee.entities.Users;
 
 import java.util.List;
